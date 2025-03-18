@@ -1,0 +1,49 @@
+ok basically this is how git works:
+
+the repo is a collection files that Git tracks
+
+the working directory are the local files that are actually on your machine
+
+the staging area, or the index, are where the files are placed before being committed
+
+a commit is a snapshot of the changes
+
+a branch is like a seperate line of developemt, while a remote is a version of your repo that is hosted somewhere else,
+such as GitHub
+
+the basic workflow for Git is sorta as follows:
+
+1. cloning the repo, if you are working on an existing project
+2. creating/modifying files in the working directory
+3. staging the changes to mark them for committing
+4. committing the changes to save a snapshot
+5. pushing the changes to a remote repo
+
+here are some of the key Git commands you prolly need to know:
+
+Setting Up: git config --global user.name "dfguihfdg"
+            git config --global user.email "dsfdsfdsf"
+
+Starting a Project: git init --> initializes a new repo
+                or  git clone <repo_url> --> clones an existing repo to the local machine
+
+Tracking and Staging: git status --> shows the status of the changes thus far
+                      git add <file> or git add . --> stages a file, or all files, for committing
+                      git commit -m "text" --> commits staged changes with a message
+
+Viewing History: git log, git log --oneline --graph --all --> shows commit history in different formats
+
+Branching: git branch <branch_name> --> creates a new branch
+           git checkout <branch_name> --> switches to a different branch
+           git checkout -b <new_branch> --> creates and switches to a new branch
+           git branch -d <branch_name> --> deletes a branch
+        
+Merging and Rebasing: git merge <branch_name> --> merges another branch with the current branch
+                      git rebase <branch_name> --> moves your branch on top of another branch (!)
+
+Pushing and Pulling: git push origin <branch_name> --> pushes local changes to a remote repo
+                     git pull origin <branch_name> --> fetches and merges changes from the remote repo
+
+Undoing Changes: git reset --soft HEAD~1 --> keeps changes unstaged
+                 git reset --hard HEAD~1 --> discards changes
+                 git checkout -- <file> --> restores a file to the last committed version

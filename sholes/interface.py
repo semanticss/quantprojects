@@ -1,5 +1,5 @@
 import streamlit as st
-from scholes import BlackSholesModel, Stock, hv, getcurrentprice
+from scholes import BlackSholesModel, Stock, hv
 import plotly as plt
 import math
 import numpy as np
@@ -11,25 +11,31 @@ st.title('Hudson\'s Black Scholes for Stocks')
 
 st.write()
 
+today = datetime.now()
+
+currentstock = Stock('AAPL', today, today - timedelta(days = 32))
+currentstock.get_data()
+st.write(currentstock.data)
+
 def truncate(number: float, decimals: int) -> float:
     stepper = 10.0 ** decimals
     return math.trunc(stepper * number) / stepper
 
-def volatilitycalc(ticker, period = '1 day'):
-    current = datetime.now()
+def vol_and_stock_object(ticker, period = '1 day'):
+    current = today
     if ticker == '':
         return 0.00000000
     if period == '1 day':
-        print('what')
+        currentstock = Stock(ticker, start = today - timedelta(days = 1), end = today)
         return hv(ticker, 1, current - timedelta(days = 1), current)
     if period == '1 week':
-        print('what')
+        currentstock = Stock(ticker, start = today - timedelta(days = 7), end = today)
         return hv(ticker, 1, current - timedelta(days = 7), current)
     if period == '1 month (30 days)':
-        print('what')
+        currentstock = Stock(ticker, start = today - timedelta(days = 30), end = today)
         return hv(ticker, 1, current - timedelta(days = 30), current)
     if period == '1 year':
-        print('what')
+        currentstock = Stock(ticker, start = today - timedelta(days = 365), end = today)
         return hv(ticker, 1, current - timedelta(days = 365), current)
     
 with st.sidebar:
@@ -41,11 +47,13 @@ with st.sidebar:
     if ticker == '':
         st.write('Please select a ticker!')
     if ticker != '':
-        currentassetprice = getcurrentprice(ticker, 1, datetime.now(), datetime.now() - timedelta(days = 1)) #out of bounds error in get current price and iloc[-1] in sholes.py
-        st.write(f'Volatility for {volatilityperiod or '1 day'}: {truncate(volatilitycalc(ticker, volatilityperiod), 3)}')
+        st.write(f'Volatility for {volatilityperiod or '1 day'}: {truncate(vol_and_stock_object(ticker, volatilityperiod), 3)}')
+        currentassetprice = currentstock.currentprice
+        st.write(currentstock)
+        
     timeuntilexp = st.number_input('Time until expiration (days)', value=30)
 
-bsm_call = BlackSholesModel(currentassetprice, strikeprice, timeuntilexp, riskfreerate, volatilitycalc(ticker, volatilityperiod)).call_option_price()
+bsm_call = BlackSholesModel(currentassetprice, strikeprice, timeuntilexp, riskfreerate, vol_and_stock_object(ticker, volatilityperiod)).call_option_price()
 
 st.write('price of the call option:', bsm_call)
 

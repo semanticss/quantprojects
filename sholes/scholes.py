@@ -8,22 +8,32 @@ import mplfinance as mpf
 import plotly.graph_objects as go
 from datetime import datetime
 import pandas as pd
+import streamlit as st
 
+
+today = datetime.now()
 class Stock:
-    def __init__(self, ticker, interval, start, end):
+    def __init__(self, ticker, start, end, interval = '1d'):
         self.interval = interval
         self.start = start
         self.end = end
         self.ticker = ticker
+        self.data = None
+        self.currentprice = None
 
     def get_data(self):
         self.data = yf.download(self.ticker, self.start, self.end, self.interval)
+        # st.write(self.data)
         if isinstance(self.data.columns, pd.MultiIndex):
             self.data.columns = self.data.columns.get_level_values(0)
         # self.data.reset_index(names='Date', inplace = True)
+        # st.write(self.data)
         self.close = self.data['Close']
+        # self.currentprice = self.close.iloc[-1]
+        # st.write(self.close)
 
-def hv(ticker: str, interval: int = 4, start: str = '2023-01-01', end = datetime.now()) -> float:
+
+def hv(ticker: str, interval: int = 4, start: str = '2023-01-01', end = today) -> float:
     stock = Stock(ticker, interval, start, end)
     stock.get_data()
     closes = stock.data['Close']
@@ -41,10 +51,6 @@ def hv(ticker: str, interval: int = 4, start: str = '2023-01-01', end = datetime
 
     return volatlity
 
-def getcurrentprice(ticker, interval, start, end):
-    stock = yf.Ticker(ticker)
-    print(type(stock.history(period='1m')['Close']))
-    return stock.history(period='1m')['Close'].iloc[-1]
 # Black sholes calculator
 class BlackSholesModel:
     def __init__(self, S, K, T, r, sigma, call: bool = True):

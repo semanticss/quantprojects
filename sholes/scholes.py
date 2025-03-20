@@ -41,6 +41,10 @@ def hv(ticker: str, interval: int = 4, start: str = '2023-01-01', end = datetime
 
     return volatlity
 
+def getcurrentprice(ticker, interval, start, end):
+    stock = yf.Ticker(ticker)
+    print(type(stock.history(period='1m')['Close']))
+    return stock.history(period='1m')['Close'].iloc[-1]
 # Black sholes calculator
 class BlackSholesModel:
     def __init__(self, S, K, T, r, sigma, call: bool = True):

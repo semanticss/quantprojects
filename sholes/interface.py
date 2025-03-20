@@ -1,5 +1,5 @@
 import streamlit as st
-from sholes import BlackSholesModel, Stock, hv
+from scholes import BlackSholesModel, Stock, hv, getcurrentprice
 import plotly as plt
 import math
 import numpy as np
@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 #https://docs.streamlit.io/develop/api-reference/widgets
 
-st.title('Hudson\'s Black Sholes')
+st.title('Hudson\'s Black Scholes for Stocks')
 
 st.write()
 
@@ -33,14 +33,15 @@ def volatilitycalc(ticker, period = '1 day'):
         return hv(ticker, 1, current - timedelta(days = 365), current)
     
 with st.sidebar:
-    currentassetprice = st.number_input('Current Asset Price ($)', value =100)
     strikeprice = st.number_input('Strike Price ($)', value = 115)
     riskfreerate = st.number_input('Risk Free Rate', value = 0.05)
+    currentassetprice = st.number_input('Current Asset Price ($)', value =100)
     volatilityperiod = st.pills("Volatility Period", ['1 day', '1 week', '1 month (30 days)', '1 year'])
     ticker = st.text_input('Ticker', placeholder='AAPL')
     if ticker == '':
         st.write('Please select a ticker!')
     if ticker != '':
+        currentassetprice = getcurrentprice(ticker, 1, datetime.now(), datetime.now() - timedelta(days = 1)) #out of bounds error in get current price and iloc[-1] in sholes.py
         st.write(f'Volatility for {volatilityperiod or '1 day'}: {truncate(volatilitycalc(ticker, volatilityperiod), 3)}')
     timeuntilexp = st.number_input('Time until expiration (days)', value=30)
 

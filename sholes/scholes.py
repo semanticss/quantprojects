@@ -11,6 +11,8 @@ import pandas as pd
 import streamlit as st
 
 
+
+st.set_page_config(page_title=f'Hudson\'s Black Scholes for Stocks')
 today = datetime.now()
 class Stock:
     def __init__(self, ticker, start, end, interval = '1d'):

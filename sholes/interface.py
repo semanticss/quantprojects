@@ -48,13 +48,14 @@ with st.sidebar:
         st.write('Please select a ticker!')
     if ticker != '':
         st.write(f'Volatility for {volatilityperiod or '1 day'}: {truncate(vol_and_stock_object(ticker, volatilityperiod), 3)}')
-        currentassetprice = currentstock.currentprice
-        st.write(currentstock)
+        # st.write(currentstock)
         
     timeuntilexp = st.number_input('Time until expiration (days)', value=30)
 
 bsm_call = BlackSholesModel(currentassetprice, strikeprice, timeuntilexp, riskfreerate, vol_and_stock_object(ticker, volatilityperiod)).call_option_price()
 
+
+st.write(bsm_call)
 st.write('price of the call option:', bsm_call)
 
 # function that calcs voltaility

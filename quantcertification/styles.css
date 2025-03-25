@@ -1,0 +1,87 @@
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #f59e0b;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --gray: #94a3b8;
+    --success: #10b981;
+    --highlight: #57d188;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'DM Sans';
+    line-height: 1.5;
+    color: var(--dark);
+    background-color: var(--light);
+}
+
+
+h1 { font-size: 4.5rem; }
+
+
+.hero {
+    justify-self: center;
+    text-align: center;
+    padding: 8rem 0 4rem;
+    margin-top: 4rem;
+}
+
+.hero .container {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.hero-content {
+    flex: 1;
+}
+
+.hero-image {
+    flex: 1;
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.hero h1 {
+    margin-bottom: 1.5rem;
+}
+
+.hero p {
+    margin-bottom: 2rem;
+    font-size: 1.25rem;
+    color: var(--gray);
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: --gray;
+}
+
+.btn:hover {
+    background-color:#697482;
+}
+
+.btnimg {
+    height: 1rem;
+    align-self: left;
+}
+#login {
+
+}

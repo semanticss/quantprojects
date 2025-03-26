@@ -1,1 +1,1 @@
-i cant code
+History of my journey learning to code.
